@@ -19,7 +19,7 @@ def random_word():
 
 def print_object(size, indent, suffix):
     print(indent + '{')
-    for i in range(size - 1):
+    for _ in range(size - 1):
         print(indent + '  "%s": %s,' % (random_word(), random_array_element()))
     print(indent + '  "%s": "no-comma"' % random_word())
     print(indent + '}' + suffix)
@@ -149,9 +149,7 @@ def main():
     elif args.with_string_list:
         with open(args.with_string_list[0]) as f:
             strings = [x[:-1] for x in f.readlines()]
-        obj = {}
-        for s in strings:
-            obj[s] = s
+        obj = {s: s for s in strings}
         obj["dontMakeAMap"] = True
         json.dump(obj, sys.stdout)
     elif args.class_count:
@@ -184,7 +182,7 @@ def main():
             elem_format = '[%s]%%s' % ", ".join(arr)
             need_i = nelems > 0
         else:
-            raise Exception("Unknown array type %s" % type)
+            raise Exception(f"Unknown array type {type}")
         for i in range(n):
             semicolon = "," if i < n - 1 else ""
             if need_i:

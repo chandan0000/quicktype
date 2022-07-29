@@ -22,7 +22,7 @@ if not os.path.exists(outdir):
 for url in urls:
     digest = hashlib.new("sha1")
     digest.update(url.encode("utf-8"))
-    filename = os.path.join(outdir, digest.hexdigest() + ".json")
+    filename = os.path.join(outdir, f"{digest.hexdigest()}.json")
     if os.path.exists(filename):
         continue
 
@@ -30,16 +30,16 @@ for url in urls:
         resp = urlopen(url)
         content_type = resp.getheader("Content-Type")
         if not (content_type == "application/json" or content_type.startswith("application/json;") or content_type == "text/plain"):
-            print("%s: wrong content type %s" % (url, content_type))
+            print(f"{url}: wrong content type {content_type}")
             continue
         data = resp.read()
     except:
-        print("%s: could not fetch - skipping" % url)
+        print(f"{url}: could not fetch - skipping")
         continue
     try:
         json.loads(data)
     except:
-        print("%s: not valid JSON - skipping" % url)
+        print(f"{url}: not valid JSON - skipping")
     with open(filename, 'wb') as f:
         f.write(data)
     print("%s: %d bytes" % (filename, len(data)))

@@ -26,14 +26,11 @@ def capitalize(w):
 
 def cap_and_upper_acro(w):
     [word, is_acro] = w
-    if is_acro:
-        return all_upper(w)
-    else:
-        return capitalize(w)
+    return all_upper(w) if is_acro else capitalize(w)
 
 
 def choice(items):
-    total = sum([n for [n, _] in items])
+    total = sum(n for [n, _] in items)
     x = random.random()
     s = 0
     for [n, item] in items:
@@ -100,5 +97,5 @@ def make_corpus_entry():
     formatted = [first_format(words[0])] + [rest_format(w) for w in words[1:]]
     return choice(prefixes) + separator.join(formatted)
 
-for i in range(1000000):
+for _ in range(1000000):
     print(make_corpus_entry())
